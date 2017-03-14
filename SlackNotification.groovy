@@ -6,7 +6,7 @@ import groovy.json.JsonOutput
 /**
  * define the default title
  */
-def defaultTitle = '${job.Status} [${job.project}] ${job.fullName} run by ${job.username} (#${job.execid})'
+def defaultTitle = '${job.Status} ${job.project}/${job.fullName} by ${job.username} (#${job.execid})'
 
 /**
  * Expands the title string using a predefined set of tokens
@@ -131,8 +131,7 @@ rundeckPlugin(NotificationPlugin) {
 
       username title: 'Username', description: 'Override default bot username', scope: 'Project'
 
-      channel title: 'Channel', description: 'Slack channel/user (comma-delimited for multiple)',
-          scope: 'Instance'
+      channel title: 'Channel', description: 'Slack channel/user (comma-delimited for multiple)', scope: 'Project'
 
       title title: 'Title', required: true, scope: 'Instance', defaultValue: defaultTitle,
           description: 'Message title. Can contain ${job.*} and ${option.*} context variables, \
@@ -149,8 +148,6 @@ rundeckPlugin(NotificationPlugin) {
 
       includeFailedNodes title: 'Include failed nodes field', type: 'Boolean',
           defaultValue: false, scope: 'Instance'
-
-      color title: 'Color', description: 'Override default message color', scope: 'InstanceOnly'
   }
   onstart { Map executionData, Map configuration ->
       triggerMessage(executionData, configuration, 'warning')
